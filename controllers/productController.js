@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler')
 const User = require('../models/userModel')
 const Product = require('../models/productModel')
 
-// @desc        Get user tickets from db
+// @desc        Get user products from db
 // @route      GET /api/products
 // @access      Private
 const getProducts = asyncHandler(async (req, res) => {
@@ -47,14 +47,14 @@ const getProduct = asyncHandler(async (req, res) => {
 })
 
 // @desc        Create new products
-// @route      POST /api/tickets
+// @route      POST /api/products
 // @access      Private
 const createProduct = asyncHandler(async (req, res) => {
-    const {product, description} = req.body
+    const {product, price, description} = req.body
 
-    if(!product || !description){
+    if(!product || !price || !description){
         res.status(400)
-        throw new Error('Please enter product name and the details')
+        throw new Error('Please enter product name, price and the details')
     }
      // Get user using the id in the JWT
      const user = await User.findById(req.user.id)
@@ -66,6 +66,7 @@ const createProduct = asyncHandler(async (req, res) => {
 
      const sProduct = await Product.create({
         product,
+        price,
         description,
         user: req.user.id
      })
