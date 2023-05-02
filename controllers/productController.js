@@ -50,9 +50,9 @@ const getProduct = asyncHandler(async (req, res) => {
 // @route      POST /api/products
 // @access      Private
 const createProduct = asyncHandler(async (req, res) => {
-    const {product, price, description} = req.body
+    const {name, price, description} = req.body
 
-    if(!product || !price || !description){
+    if(!name || !price || !description){
         res.status(400)
         throw new Error('Please enter product name, price and the details')
     }
@@ -65,7 +65,7 @@ const createProduct = asyncHandler(async (req, res) => {
      }
 
      const sProduct = await Product.create({
-        product,
+        name,
         price,
         description,
         user: req.user.id
